@@ -1,16 +1,34 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
 require('dotenv').config();
+
 const db = require('./config/db');
+const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Security middleware
+app.use(helmet());
+
+// Logging middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// CORS
 app.use(cors());
+
+// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 
 app.get('/api', (req, res) => {
@@ -27,6 +45,10 @@ app.get('/api/test-db', async (req, res) => {
   }
 });
 
+// Global error handler (must be after all routes)
+app.use(errorHandler);
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
