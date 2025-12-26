@@ -1,44 +1,96 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Dashboard from './pages/customer/Dashboard';
+import StaffDashboard from './pages/staff/Dashboard';
+
+// Protected Route Component
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const { isAuthenticated, user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(user?.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [apiMessage, setApiMessage] = useState('')
-
-  useEffect(() => {
-    fetch('/api')
-      .then(res => res.json())
-      .then(data => setApiMessage(data.message))
-      .catch(err => console.error('Error fetching API:', err))
-  }, [])
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React + Express</h1>
-      <div className="card">
-        <p>API Message: {apiMessage || 'Loading...'}</p>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* Customer Routes */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Staff Routes */}
+      <Route
+        path="/staff/dashboard"
+        element={
+          <ProtectedRoute allowedRoles={['staff', 'admin', 'super_admin']}>
+            <StaffDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Default Route */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
+      {/* Unauthorized */}
+      <Route
+        path="/unauthorized"
+        element={
+          <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">403</h1>
+              <p className="text-lg text-gray-600 mb-4">Access Denied</p>
+              <a href="/login" className="btn-primary">
+                Go to Login
+              </a>
+            </div>
+          </div>
+        }
+      />
+
+      {/* 404 Not Found */}
+      <Route
+        path="*"
+        element={
+          <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
+              <p className="text-lg text-gray-600 mb-4">Page Not Found</p>
+              <a href="/" className="btn-primary">
+                Go Home
+              </a>
+            </div>
+          </div>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

@@ -4,7 +4,11 @@
       "Bash(npm init:*)",
       "Bash(npm install:*)",
       "Bash(mkdir:*)",
-      "Bash(npm create:*)"
+      "Bash(npm create:*)",
+      "Bash(npm run init-db:*)",
+      "Bash(node:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
