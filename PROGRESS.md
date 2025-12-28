@@ -272,9 +272,9 @@ A comprehensive hotel management system with role-based access, dual frontends (
 - [x] Room Search page - Hero section with elevated search bar
 - [x] Room Card component - Premium card design with pricing emphasis
 - [x] Staff Dashboard - Left sidebar navigation with dark charcoal theme
-- [ ] Register page
+- [x] Register page - Centered card layout with password toggles and back button
+- [x] Booking Checkout flow - Navigation with back button added
 - [ ] Customer Dashboard
-- [ ] Booking Checkout flow
 - [ ] My Bookings page
 - [ ] Room Details page
 
@@ -366,12 +366,12 @@ A comprehensive hotel management system with role-based access, dual frontends (
 
 ## 📈 PROGRESS METRICS
 
-- **Overall Completion**: ~50% (Phases 1-2 complete, Phase 3 backend done, UI redesign complete)
+- **Overall Completion**: ~52% (Phases 1-2 complete, Phase 3 backend done, UI redesign progressing)
 - **Backend**: ~50% (Auth + Room Management + Booking System complete)
-- **Frontend**: ~40% (Auth + Room Management + Modern UI/UX redesign complete)
+- **Frontend**: ~45% (Auth + Room Management + Modern UI/UX redesign in progress)
 - **Database**: ~60% (6 of 10 tables created)
-- **UI/UX Design**: ~70% (Design system + 4 major pages redesigned)
-- **Features**: Authentication ✅, Room Management ✅, Booking Backend ✅, Modern UI ✅
+- **UI/UX Design**: ~75% (Design system + 6 major pages redesigned)
+- **Features**: Authentication ✅, Room Management ✅, Booking Backend ✅, Modern UI ✅, Guest Booking Flow ✅
 
 ---
 
