@@ -18,7 +18,9 @@ const RoomCard = ({ room, onEdit, onDelete, showActions = false }) => {
     executive: 'Executive',
   };
 
-  const amenities = room.amenities ? JSON.parse(room.amenities) : [];
+  const amenities = room.amenities
+    ? (typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities)
+    : [];
 
   return (
     <div className="card hover:shadow-lg transition-shadow duration-200">

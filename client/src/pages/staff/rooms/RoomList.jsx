@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Filter, Search } from 'lucide-react';
+import { Plus, Filter, Search, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { roomService } from '../../../services/roomService';
 import RoomCard from '../../../components/room/RoomCard';
@@ -61,11 +61,20 @@ const RoomList = () => {
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-heading font-bold text-gray-900">
-                Room Management
-              </h1>
-              <p className="text-gray-600 mt-1">Manage rooms and availability</p>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => navigate('/staff/dashboard')}
+                className="btn-secondary flex items-center gap-2"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                Back
+              </button>
+              <div>
+                <h1 className="text-2xl font-heading font-bold text-gray-900">
+                  Room Management
+                </h1>
+                <p className="text-gray-600 mt-1">Manage rooms and availability</p>
+              </div>
             </div>
             {canManageRooms && (
               <button

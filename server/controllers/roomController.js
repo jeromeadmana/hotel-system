@@ -40,9 +40,16 @@ const getRooms = async (req, res, next) => {
 
     const [rooms] = await db.query(query, params);
 
+    // Parse JSON fields
+    const parsedRooms = rooms.map(room => ({
+      ...room,
+      amenities: room.amenities ? (typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities) : [],
+      images: room.images ? (typeof room.images === 'string' ? JSON.parse(room.images) : room.images) : []
+    }));
+
     res.json({
       success: true,
-      data: { rooms }
+      data: { rooms: parsedRooms }
     });
   } catch (error) {
     next(error);
@@ -78,10 +85,15 @@ const getRoomById = async (req, res, next) => {
       ORDER BY rate_type
     `, [id]);
 
+    // Parse JSON fields
+    const room = rooms[0];
+    room.amenities = room.amenities ? (typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities) : [];
+    room.images = room.images ? (typeof room.images === 'string' ? JSON.parse(room.images) : room.images) : [];
+
     res.json({
       success: true,
       data: {
-        room: rooms[0],
+        room,
         rates
       }
     });
