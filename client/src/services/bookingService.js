@@ -1,4 +1,4 @@
-import api from './api';
+import api from '../config/api';
 
 export const bookingService = {
   // Create guest booking (no auth)
