@@ -7,6 +7,8 @@ require('dotenv').config();
 const db = require('./config/db');
 const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
+const roomRoutes = require('./routes/rooms');
+const roomRateRoutes = require('./routes/roomRates');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -30,6 +32,8 @@ app.use(express.urlencoded({ extended: true }));
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/rooms', roomRoutes);
+app.use('/api/room-rates', roomRateRoutes);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Welcome to the API' });

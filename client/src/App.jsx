@@ -4,6 +4,8 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/customer/Dashboard';
 import StaffDashboard from './pages/staff/Dashboard';
+import RoomList from './pages/staff/rooms/RoomList';
+import CreateRoom from './pages/staff/rooms/CreateRoom';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -51,6 +53,22 @@ function App() {
         element={
           <ProtectedRoute allowedRoles={['staff', 'admin', 'super_admin']}>
             <StaffDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/staff/rooms"
+        element={
+          <ProtectedRoute allowedRoles={['staff', 'admin', 'super_admin']}>
+            <RoomList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/staff/rooms/create"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+            <CreateRoom />
           </ProtectedRoute>
         }
       />

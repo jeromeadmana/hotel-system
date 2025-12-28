@@ -1,7 +1,9 @@
 import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const StaffDashboard = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const getRoleBadge = (role) => {
     const badges = {
@@ -97,7 +99,10 @@ const StaffDashboard = () => {
                   <p className="text-sm text-gray-500">View and confirm reservations</p>
                 </button>
                 {(user?.role === 'admin' || user?.role === 'super_admin') && (
-                  <button className="card p-4 hover:shadow-lg transition-shadow text-left">
+                  <button
+                    onClick={() => navigate('/staff/rooms')}
+                    className="card p-4 hover:shadow-lg transition-shadow text-left"
+                  >
                     <p className="font-medium text-gray-900">Manage Rooms</p>
                     <p className="text-sm text-gray-500">Add and edit room information</p>
                   </button>
