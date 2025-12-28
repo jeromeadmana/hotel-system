@@ -80,7 +80,7 @@ function App() {
       />
 
       {/* Default Route */}
-      <Route path="/" element={<Navigate to="/rooms" replace />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
 
       {/* Unauthorized */}
       <Route

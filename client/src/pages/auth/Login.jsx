@@ -58,7 +58,34 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary via-primary-dark to-gray-900 flex">
+    <div className="min-h-screen bg-gradient-to-br from-primary via-primary-dark to-gray-900">
+      {/* Top Navigation */}
+      <nav className="absolute top-0 left-0 right-0 z-10 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center gap-2">
+              <Hotel className="w-8 h-8 text-white" />
+              <span className="text-xl font-heading font-bold text-white">Hotel Management</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link
+                to="/rooms"
+                className="text-white hover:text-gray-200 font-medium transition-colors"
+              >
+                Browse Rooms
+              </Link>
+              <Link
+                to="/register"
+                className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors font-medium"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="min-h-screen flex pt-20">
       {/* Left Side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-dark to-primary items-center justify-center p-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
@@ -234,6 +261,7 @@ const Login = () => {
             </p>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
