@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, Users, CreditCard, AlertCircle, CheckCircle } from 'lucide-react';
+import { Calendar, Users, CreditCard, AlertCircle, CheckCircle, ArrowLeft, Hotel } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { roomService } from '../../services/roomService';
 import { bookingService } from '../../services/bookingService';
@@ -166,11 +166,32 @@ const BookingCheckout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation */}
+      <nav className="bg-background-paper border-b border-secondary-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-3">
+              <Hotel className="w-8 h-8 text-accent" />
+              <span className="text-xl font-heading font-semibold text-primary">Grand Hotel</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <button
+                onClick={() => navigate('/rooms')}
+                className="flex items-center gap-2 text-primary-500 hover:text-accent font-medium transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Rooms
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
-          <h1 className="text-3xl font-heading font-bold text-gray-900">Complete Your Booking</h1>
-          <p className="text-gray-600 mt-1">Just a few more details and you're all set</p>
+          <h1 className="text-3xl font-heading font-bold text-primary">Complete Your Booking</h1>
+          <p className="text-primary-400 mt-1">Just a few more details and you're all set</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
