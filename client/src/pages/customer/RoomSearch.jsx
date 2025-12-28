@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, Users, Calendar, Filter, MapPin } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Search, Users, Calendar, Filter, MapPin, Hotel } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { roomService } from '../../services/roomService';
 import RoomCard from '../../components/room/RoomCard';
@@ -53,7 +53,6 @@ const RoomSearch = () => {
   };
 
   const handleBookRoom = (room) => {
-    // Navigate to booking page with room and date info
     const queryParams = new URLSearchParams({
       roomId: room.id,
       ...(searchDates.checkIn && { checkIn: searchDates.checkIn }),
@@ -63,129 +62,172 @@ const RoomSearch = () => {
   };
 
   const filteredRooms = rooms.filter(room => {
-    // Additional client-side filtering if needed
     return true;
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation */}
+      <nav className="bg-background-paper border-b border-secondary-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-3">
+              <Hotel className="w-8 h-8 text-accent" />
+              <span className="text-xl font-heading font-semibold text-primary">Grand Hotel</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link
+                to="/login"
+                className="text-primary-500 hover:text-accent font-medium transition-colors"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                className="bg-accent hover:bg-accent-dark text-white px-6 py-2.5 rounded-xl font-medium transition-all shadow-sm hover:shadow-md"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary to-primary-dark text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-heading font-bold mb-4">
-            Find Your Perfect Room
+      <div className="bg-primary text-secondary-50 py-16 border-b border-primary-800">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <h1 className="text-5xl font-heading font-semibold mb-4">
+            Discover Your Perfect Stay
           </h1>
-          <p className="text-xl text-gray-100">
-            Book your stay with us and enjoy luxury accommodations
+          <p className="text-xl text-secondary-100">
+            Experience luxury and comfort in our carefully curated rooms
           </p>
         </div>
       </div>
 
       {/* Search Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-        <div className="card p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-10">
+        <div className="bg-background-paper rounded-2xl shadow-elegant p-8 border border-secondary-200">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                <Calendar className="inline w-4 h-4 mr-1" />
+              <label className="block text-sm font-medium text-primary-600 mb-2">
                 Check-in Date
               </label>
-              <input
-                type="date"
-                name="checkIn"
-                className="input-field"
-                value={searchDates.checkIn}
-                onChange={handleDateChange}
-                min={new Date().toISOString().split('T')[0]}
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Calendar className="h-5 w-5 text-primary-300" />
+                </div>
+                <input
+                  type="date"
+                  name="checkIn"
+                  className="w-full pl-11 pr-4 py-3 bg-background border border-secondary-300 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
+                  value={searchDates.checkIn}
+                  onChange={handleDateChange}
+                  min={new Date().toISOString().split('T')[0]}
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                <Calendar className="inline w-4 h-4 mr-1" />
+              <label className="block text-sm font-medium text-primary-600 mb-2">
                 Check-out Date
               </label>
-              <input
-                type="date"
-                name="checkOut"
-                className="input-field"
-                value={searchDates.checkOut}
-                onChange={handleDateChange}
-                min={searchDates.checkIn || new Date().toISOString().split('T')[0]}
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Calendar className="h-5 w-5 text-primary-300" />
+                </div>
+                <input
+                  type="date"
+                  name="checkOut"
+                  className="w-full pl-11 pr-4 py-3 bg-background border border-secondary-300 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all"
+                  value={searchDates.checkOut}
+                  onChange={handleDateChange}
+                  min={searchDates.checkIn || new Date().toISOString().split('T')[0]}
+                />
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                <Users className="inline w-4 h-4 mr-1" />
+              <label className="block text-sm font-medium text-primary-600 mb-2">
                 Guests
               </label>
-              <select
-                name="min_occupancy"
-                className="input-field"
-                value={filters.min_occupancy}
-                onChange={handleFilterChange}
-              >
-                <option value="">Any</option>
-                <option value="1">1 Guest</option>
-                <option value="2">2 Guests</option>
-                <option value="3">3 Guests</option>
-                <option value="4">4+ Guests</option>
-              </select>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Users className="h-5 w-5 text-primary-300" />
+                </div>
+                <select
+                  name="min_occupancy"
+                  className="w-full pl-11 pr-4 py-3 bg-background border border-secondary-300 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all appearance-none"
+                  value={filters.min_occupancy}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">Any</option>
+                  <option value="1">1 Guest</option>
+                  <option value="2">2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4+ Guests</option>
+                </select>
+              </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                <MapPin className="inline w-4 h-4 mr-1" />
+              <label className="block text-sm font-medium text-primary-600 mb-2">
                 Room Type
               </label>
-              <select
-                name="room_type"
-                className="input-field"
-                value={filters.room_type}
-                onChange={handleFilterChange}
-              >
-                <option value="">All Types</option>
-                <option value="single">Single</option>
-                <option value="double">Double</option>
-                <option value="suite">Suite</option>
-                <option value="deluxe">Deluxe</option>
-                <option value="family">Family</option>
-                <option value="executive">Executive</option>
-              </select>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <MapPin className="h-5 w-5 text-primary-300" />
+                </div>
+                <select
+                  name="room_type"
+                  className="w-full pl-11 pr-4 py-3 bg-background border border-secondary-300 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all appearance-none"
+                  value={filters.room_type}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">All Types</option>
+                  <option value="single">Single</option>
+                  <option value="double">Double</option>
+                  <option value="suite">Suite</option>
+                  <option value="deluxe">Deluxe</option>
+                  <option value="family">Family</option>
+                  <option value="executive">Executive</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Results */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-heading font-bold text-gray-900">
-            Available Rooms ({filteredRooms.length})
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-3xl font-heading font-semibold text-primary">
+            Available Rooms <span className="text-primary-400">({filteredRooms.length})</span>
           </h2>
         </div>
 
         {loading ? (
-          <div className="text-center py-12">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="mt-4 text-gray-600">Loading rooms...</p>
+          <div className="text-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-3 border-accent border-t-transparent"></div>
+            <p className="mt-4 text-primary-400">Loading rooms...</p>
           </div>
         ) : filteredRooms.length === 0 ? (
-          <div className="text-center py-12">
-            <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No rooms found
+          <div className="text-center py-20">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-secondary-100 rounded-full mb-6">
+              <MapPin className="w-10 h-10 text-primary-300" />
+            </div>
+            <h3 className="text-xl font-heading font-semibold text-primary mb-2">
+              No Rooms Available
             </h3>
-            <p className="text-gray-600">
-              Try adjusting your search filters
+            <p className="text-primary-400">
+              Please try adjusting your search criteria
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredRooms.map(room => (
-              <div key={room.id}>
+              <div key={room.id} className="flex flex-col">
                 <RoomCard room={room} />
                 <button
                   onClick={() => handleBookRoom(room)}
-                  className="btn-primary w-full mt-4"
+                  className="mt-4 w-full bg-accent hover:bg-accent-dark text-white py-3 rounded-xl font-medium transition-all shadow-md hover:shadow-lg"
                 >
                   Book Now
                 </button>
