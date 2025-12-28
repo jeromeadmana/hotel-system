@@ -7,15 +7,33 @@ const initializeDatabase = async () => {
   try {
     console.log('🔄 Connecting to MySQL database...');
 
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      port: process.env.DB_PORT || 3306,
-      ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
-      multipleStatements: true
-    });
+    // Parse DATABASE_URL if it exists, otherwise use individual variables
+    let connectionConfig;
+    if (process.env.DATABASE_URL) {
+      // Parse DATABASE_URL: mysql://user:password@host:port/database?ssl-mode=REQUIRED
+      const url = new URL(process.env.DATABASE_URL);
+      connectionConfig = {
+        host: url.hostname,
+        user: url.username,
+        password: url.password,
+        database: url.pathname.substring(1), // Remove leading slash
+        port: url.port || 3306,
+        ssl: url.searchParams.get('ssl-mode') === 'REQUIRED' ? { rejectUnauthorized: false } : undefined,
+        multipleStatements: true
+      };
+    } else {
+      connectionConfig = {
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT || 3306,
+        ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
+        multipleStatements: true
+      };
+    }
+
+    const connection = await mysql.createConnection(connectionConfig);
 
     console.log('✅ Connected to MySQL database');
 
