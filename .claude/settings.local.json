@@ -12,7 +12,15 @@
       "Bash(git push)",
       "Bash(npm start)",
       "Bash(npm run dev:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(npm run init-db-v2:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2ZkYWE4OC1lNDAyLTExZjAtODRmZi03YTQxNGY0NjYzMjkiLCJlbWFpbCI6ImFkbWluLm55QGhvdGVsLmNvbSIsInJvbGUiOiJhZG1pbiIsImxvY2F0aW9uSWQiOiIwMzY2ZDZiMS1lNDAyLTExZjAtODRmZi03YTQxNGY0NjYzMjkiLCJpYXQiOjE3NjY5MzU3ODUsImV4cCI6MTc2NjkzNzU4NX0.6xLKlFk32IIswEgGjWUipA5o_vL6H-AVgpdwaknCb4k\")",
+      "Bash(npm run server:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill //F //PID 22244)",
+      "Bash(taskkill:*)"
     ]
   }
 }

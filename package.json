@@ -10,6 +10,7 @@
     "build": "npm run build --prefix client",
     "init-db": "node server/database/init-db.js",
     "init-db-uuid": "node server/database/init-uuid-db.js",
+    "init-db-v2": "node server/database/init-uuid-v2-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

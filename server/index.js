@@ -8,8 +8,10 @@ const db = require('./config/db');
 const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
 const roomRoutes = require('./routes/rooms');
+const roomTemplateRoutes = require('./routes/roomTemplates');
 const roomRateRoutes = require('./routes/roomRates');
 const bookingRoutes = require('./routes/bookings');
+const locationRoutes = require('./routes/locations');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -34,8 +36,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/rooms', roomRoutes);
+app.use('/api/room-templates', roomTemplateRoutes);
 app.use('/api/room-rates', roomRateRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/locations', locationRoutes);
 
 app.get('/api', (req, res) => {
   res.json({ message: 'Welcome to the API' });

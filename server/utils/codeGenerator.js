@@ -94,11 +94,25 @@ const generateTaskCode = () => {
   return `TASK-${randomPart}`;
 };
 
+/**
+ * Generate room template code
+ * Format: TMPL-DELUXE-NY or TMPL-OCEAN-LA
+ * @param {string} roomType - Room type (e.g., 'DELUXE', 'SUITE', 'OCEAN')
+ * @param {string} locationCode - Location code (first 2-3 letters of city)
+ * @returns {string} Template code
+ */
+const generateTemplateCode = (roomType, locationCode) => {
+  const type = roomType.substring(0, 10).toUpperCase();
+  const locCode = locationCode.substring(0, 3).toUpperCase();
+  return `TMPL-${type}-${locCode}`;
+};
+
 module.exports = {
   generateRandomCode,
   generateUserCode,
   generateRoomCode,
   generateBookingReference,
   generatePaymentReference,
-  generateTaskCode
+  generateTaskCode,
+  generateTemplateCode
 };

@@ -14,7 +14,8 @@ import {
   DoorOpen,
   LayoutDashboard,
   Settings,
-  Bell
+  Bell,
+  Layers
 } from 'lucide-react';
 
 const StaffDashboard = () => {
@@ -66,6 +67,13 @@ const StaffDashboard = () => {
       label: 'Rooms',
       icon: Hotel,
       onClick: () => navigate('/staff/rooms'),
+      roles: ['admin', 'super_admin']
+    },
+    {
+      id: 'templates',
+      label: 'Templates',
+      icon: Layers,
+      onClick: () => navigate('/staff/templates'),
       roles: ['admin', 'super_admin']
     },
     {

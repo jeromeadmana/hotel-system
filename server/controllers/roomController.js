@@ -11,7 +11,7 @@ const getRooms = async (req, res, next) => {
              (SELECT price FROM room_rates WHERE room_id = r.id AND rate_type = 'base' AND is_active = TRUE LIMIT 1) as base_price
       FROM rooms r
       LEFT JOIN locations l ON r.location_id = l.id
-      WHERE r.is_active = TRUE
+      WHERE r.is_active = TRUE AND r.is_public = TRUE
     `;
 
     const params = [];
@@ -68,7 +68,7 @@ const getRoomById = async (req, res, next) => {
              l.city as location_city
       FROM rooms r
       LEFT JOIN locations l ON r.location_id = l.id
-      WHERE r.id = ? AND r.is_active = TRUE
+      WHERE r.id = ? AND r.is_active = TRUE AND r.is_public = TRUE
     `, [id]);
 
     if (rooms.length === 0) {

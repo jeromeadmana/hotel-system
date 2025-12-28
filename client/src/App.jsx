@@ -9,6 +9,10 @@ import BookingConfirmation from './pages/customer/BookingConfirmation';
 import StaffDashboard from './pages/staff/Dashboard';
 import RoomList from './pages/staff/rooms/RoomList';
 import CreateRoom from './pages/staff/rooms/CreateRoom';
+import TemplateList from './pages/staff/TemplateList';
+import CreateTemplate from './pages/staff/CreateTemplate';
+import EditTemplate from './pages/staff/EditTemplate';
+import TemplateRooms from './pages/staff/TemplateRooms';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -55,6 +59,14 @@ function App() {
 
       {/* Staff Routes */}
       <Route
+        path="/staff"
+        element={
+          <ProtectedRoute allowedRoles={['staff', 'admin', 'super_admin']}>
+            <StaffDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/staff/dashboard"
         element={
           <ProtectedRoute allowedRoles={['staff', 'admin', 'super_admin']}>
@@ -75,6 +87,40 @@ function App() {
         element={
           <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
             <CreateRoom />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Room Template Routes (Admin Only) */}
+      <Route
+        path="/staff/templates"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+            <TemplateList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/staff/templates/create"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+            <CreateTemplate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/staff/templates/:id/edit"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+            <EditTemplate />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/staff/templates/:id/rooms"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'super_admin']}>
+            <TemplateRooms />
           </ProtectedRoute>
         }
       />
