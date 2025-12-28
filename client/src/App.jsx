@@ -3,6 +3,9 @@ import { useAuth } from './hooks/useAuth';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/customer/Dashboard';
+import RoomSearch from './pages/customer/RoomSearch';
+import BookingCheckout from './pages/customer/BookingCheckout';
+import BookingConfirmation from './pages/customer/BookingConfirmation';
 import StaffDashboard from './pages/staff/Dashboard';
 import RoomList from './pages/staff/rooms/RoomList';
 import CreateRoom from './pages/staff/rooms/CreateRoom';
@@ -36,6 +39,9 @@ function App() {
       {/* Public Routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/rooms" element={<RoomSearch />} />
+      <Route path="/book" element={<BookingCheckout />} />
+      <Route path="/booking-confirmation" element={<BookingConfirmation />} />
 
       {/* Customer Routes */}
       <Route
@@ -74,7 +80,7 @@ function App() {
       />
 
       {/* Default Route */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Navigate to="/rooms" replace />} />
 
       {/* Unauthorized */}
       <Route
