@@ -11,7 +11,7 @@
   }
 
   body {
-    @apply font-sans text-gray-900 bg-gray-50;
+    @apply font-body text-primary bg-background;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -21,18 +21,18 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors;
+    @apply bg-accent hover:bg-accent-dark text-white px-6 py-3 rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-md hover:shadow-lg;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 text-gray-900 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors;
+    @apply bg-secondary-100 hover:bg-secondary-200 text-primary-700 px-6 py-3 rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-secondary-300 transition-all;
   }
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply w-full px-4 py-3 bg-background border border-secondary-300 rounded-xl text-primary placeholder-primary-300 focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-all;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-md overflow-hidden;
+    @apply bg-background-paper rounded-2xl shadow-elegant overflow-hidden border border-secondary-200;
   }
 }
