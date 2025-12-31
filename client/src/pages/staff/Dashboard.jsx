@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   Calendar,
   Users,
@@ -15,19 +16,44 @@ import {
   LayoutDashboard,
   Settings,
   Bell,
-  Layers
+  Layers,
+  Loader2
 } from 'lucide-react';
+import dashboardService from '../../services/dashboardService';
 
 const StaffDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState('dashboard');
   const [stats, setStats] = useState({
-    totalBookings: 24,
-    todayCheckIns: 12,
-    pendingBookings: 8,
-    availableRooms: 45
+    totalBookings: 0,
+    todayCheckIns: 0,
+    pendingBookings: 0,
+    availableRooms: 0
   });
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const [statsData, activityData] = await Promise.all([
+        dashboardService.getStats(),
+        dashboardService.getRecentActivity()
+      ]);
+      setStats(statsData);
+      setRecentActivity(activityData);
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      toast.error('Failed to load dashboard data');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getRoleBadge = (role) => {
     const badges = {
@@ -206,6 +232,14 @@ const StaffDashboard = () => {
 
         {/* Dashboard Content */}
         <div className="p-8">
+          {/* Loading State */}
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <Loader2 className="w-8 h-8 text-accent animate-spin" />
+              <span className="ml-3 text-primary-400">Loading dashboard...</span>
+            </div>
+          ) : (
+            <>
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-background-paper rounded-2xl shadow-elegant p-6 border border-secondary-200">
@@ -262,27 +296,39 @@ const StaffDashboard = () => {
               </button>
             </div>
             <div className="space-y-3">
-              {[
-                { action: 'New booking confirmed', detail: 'Room 201 - Suite', time: '2 min ago', icon: Calendar, color: 'blue' },
-                { action: 'Check-in completed', detail: 'Room 105 - Deluxe', time: '15 min ago', icon: CheckCircle, color: 'teal' },
-                { action: 'Housekeeping completed', detail: 'Room 304 - Family', time: '1 hour ago', icon: ClipboardList, color: 'yellow' }
-              ].map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <div key={index} className="flex items-center gap-4 p-4 bg-background hover:bg-secondary-50 rounded-xl transition-colors">
-                    <div className={`w-10 h-10 bg-${item.color}-50 rounded-lg flex items-center justify-center`}>
-                      <Icon className={`w-5 h-5 text-${item.color}-600`} />
+              {recentActivity.length > 0 ? (
+                recentActivity.map((item, index) => {
+                  const iconMap = {
+                    pending: Clock,
+                    confirmed: Calendar,
+                    checked_in: CheckCircle,
+                    checked_out: DoorOpen,
+                    cancelled: AlertCircle
+                  };
+                  const Icon = iconMap[item.icon] || Calendar;
+                  return (
+                    <div key={item.id || index} className="flex items-center gap-4 p-4 bg-background hover:bg-secondary-50 rounded-xl transition-colors">
+                      <div className={`w-10 h-10 bg-${item.type}-50 rounded-lg flex items-center justify-center`}>
+                        <Icon className={`w-5 h-5 text-${item.type}-600`} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-primary-700">{item.action}</p>
+                        <p className="text-xs text-primary-400">{item.detail}</p>
+                      </div>
+                      <span className="text-xs text-primary-300">{item.time}</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-primary-700">{item.action}</p>
-                      <p className="text-xs text-primary-400">{item.detail}</p>
-                    </div>
-                    <span className="text-xs text-primary-300">{item.time}</span>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <div className="text-center py-8 text-primary-300">
+                  <ClipboardList className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                  <p className="text-sm">No recent activity</p>
+                </div>
+              )}
             </div>
           </div>
+          </>
+          )}
         </div>
       </main>
     </div>
