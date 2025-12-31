@@ -4,8 +4,10 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/customer/Dashboard';
 import RoomSearch from './pages/customer/RoomSearch';
-import BookingCheckout from './pages/customer/BookingCheckout';
-import BookingConfirmation from './pages/customer/BookingConfirmation';
+import MyBookings from './pages/customer/MyBookings';
+import RoomDetails from './pages/RoomDetails';
+import BookingCheckout from './pages/BookingCheckout';
+import BookingConfirmation from './pages/BookingConfirmation';
 import StaffDashboard from './pages/staff/Dashboard';
 import RoomList from './pages/staff/rooms/RoomList';
 import CreateRoom from './pages/staff/rooms/CreateRoom';
@@ -44,8 +46,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/rooms" element={<RoomSearch />} />
-      <Route path="/book" element={<BookingCheckout />} />
-      <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+      <Route path="/rooms/:id" element={<RoomDetails />} />
+      <Route path="/booking/checkout/:roomId" element={<BookingCheckout />} />
+      <Route path="/booking/confirmation/:reference" element={<BookingConfirmation />} />
 
       {/* Customer Routes */}
       <Route
@@ -53,6 +56,14 @@ function App() {
         element={
           <ProtectedRoute allowedRoles={['customer']}>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/my-bookings"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <MyBookings />
           </ProtectedRoute>
         }
       />
